@@ -1,0 +1,9 @@
+const resetOtpTemplate = (otp) => `
+  <div style="font-family:Arial;padding:20px;">
+    <h2>Your OTP Code</h2>
+    <p>Your OTP: <b>${otp}</b></p>
+    <p>This OTP is valid for 10 minutes.</p>
+  </div>
+`;
+
+module.exports = resetOtpTemplate;
