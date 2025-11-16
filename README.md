@@ -55,6 +55,14 @@ Install Dependencies
 
 npm install
 
+🌐 Live Deployment
+
+You can test the live application here:
+
+Live URL: https://email-system-production.up.railway.app
+
+Run Server
+node index.js
 
 Configure Environment Variables
 Create .env file:
@@ -64,8 +72,9 @@ EMAIL_PASS=your_app_password
 PORT=4000
 
 
-Run Server
-node index.js
+
+
+
 
 📌 API Routes
 Route	Method	Description
