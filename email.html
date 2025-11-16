@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Test Form</title>
+</head>
+<body>
+  <h2>Test Confirmation Email</h2>
+  
+  <form id="emailForm">
+    <input type="text" id="name" placeholder="Your Name" required /><br><br>
+    <input type="email" id="email" placeholder="Your Email" required /><br><br>
+    <button type="submit">Send Confirmation Email</button>
+  </form>
+
+  <p id="response"></p>
+
+  <script>
+    const form = document.getElementById('emailForm');
+    const responseP = document.getElementById('response');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+
+      try {
+        const res = await fetch('https://email-sytem.onrender.com/api/send-confirmation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email })
+        });
+
+        const data = await res.json();
+        responseP.innerText = JSON.stringify(data, null, 2);
+
+      } catch (err) {
+        console.error(err);
+        responseP.innerText = "Error sending email";
+      }
+    });
+  </script>
+</body>
+</html>

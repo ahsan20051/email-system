@@ -1,7 +1,7 @@
-const transporter = require("../config/emailConfig");   // ← NEW
+const transporter = require("../config/emailConfig");
 require("dotenv").config();
 
-// 1. Confirmation Email
+
 const sendConfirmationEmail = async (req, res) => {
     try {
         const { email, token } = req.body;
@@ -25,7 +25,7 @@ const sendConfirmationEmail = async (req, res) => {
     }
 };
 
-// 2. Welcome Email
+
 const sendWelcomeEmail = async (req, res) => {
     try {
         const { email, name } = req.body;
@@ -45,24 +45,39 @@ const sendWelcomeEmail = async (req, res) => {
     }
 };
 
-// 3. Reset OTP Email
+const otps = new Map();
+
 const sendResetOTP = async (req, res) => {
     try {
-        const { email, otp } = req.body;
+        const { email } = req.body;
+
+
+        const otp = Math.floor(100000 + Math.random() * 900000);
+
+        otps.set(email, {
+            otp,
+            createdAt: Date.now()
+        });
+
 
         await transporter.sendMail({
             from: `"Ahsan Email System" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: "Your Password Reset OTP",
-            html: `<h2>Your OTP: <b>${otp}</b></h2>`,
+            html: `<h2>Your OTP: <b>${otp}</b></h2><p>Valid for 10 minutes.</p>`,
         });
 
-        res.json({ message: "OTP sent" });
+
+        res.json({
+            success: true,
+            message: "OTP sent successfully"
+        });
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Email failed" });
+        res.status(500).json({ error: "Email sending failed" });
     }
 };
+
 
 module.exports = { sendConfirmationEmail, sendWelcomeEmail, sendResetOTP };
